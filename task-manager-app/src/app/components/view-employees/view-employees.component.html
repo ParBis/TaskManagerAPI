@@ -1,0 +1,36 @@
+<div *ngIf="message!=''" class={{alertClass}} role="alert">
+  {{message}}
+</div>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">Search Employee By name</span>
+  </div>
+  <input #search (change)="0" type="text" class="form-control"  aria-label="Username" 
+  aria-describedby="basic-addon1">
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Task</th>
+      <th scope="col">Priority</th>
+      <th scope="col">Parent</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employees | filterEmployee: search.value; let i= index">
+      <th scope="row">{{i+1}}</th>
+      <td><a class="nav-link active" routerLink="/edit/{{employee.taskId}}">{{employee.task}}</a></td>
+      <td>{{employee.priority}}</td>
+      <td>{{employee.parentTask}}</td>
+      <td>{{employee.stStartDate}}</td>
+      <td>{{employee.stEndDate}}</td>
+      <td><button type="button" (click)="deleteEmployee(employee.taskId)" class="btn btn-danger">Delete</button></td>
+    </tr>
+    
+  </tbody>
+</table>

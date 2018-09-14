@@ -1,0 +1,43 @@
+
+
+<form [formGroup]="myForm" (submit)="onSubmit()">
+  <div *ngIf="message!=''" class={{alertClass}} role="alert">
+    {{message}}
+  </div>
+  <div class="form-group">
+    <label for="task">Task</label>
+    <input type="hidden" class="form-control" id="taskId" name="taskId" formControlName="taskId">
+    <input type="text" class="form-control" id="task" name="task" formControlName="task">
+    <small *ngIf="!myForm.controls['task'].valid && myForm.controls['task'].dirty">Invalid Task!!</small>
+  </div>
+
+  <div class="form-group">
+    <label for="priority">Priority - {{myForm.controls['priority'].value}}</label>
+    <input type="range" class="custom-range" min="0" max="5" step="1" id="customRange3" 
+    id="priority" name="priority" formControlName="priority">
+  </div>
+
+  <div class="form-group">
+    <label for="parentTask">Parent Task</label>
+    <input type="text" class="form-control" id="parentTask" name="parentTask" formControlName="parentTask">
+    <small *ngIf="!myForm.controls['parentTask'].valid && myForm.controls['parentTask'].dirty">Invalid Parent Task!!</small>
+  </div>
+  <div class="form-group">
+    <label for="stStartDate">Start Date</label>
+    <input type="date" class="form-control" id="stStartDate" name="stStartDate" formControlName="stStartDate">
+    <small *ngIf="!myForm.controls['stStartDate'].valid && myForm.controls['stStartDate'].dirty">Invalid Start Date!!</small>
+  </div>
+  <div class="form-group">
+    <label for="stEndDate">End Date</label>
+    <input type="date" class="form-control" id="stEndDate" name="stEndDate" formControlName="stEndDate">
+    <small *ngIf="!myForm.controls['stEndDate'].valid && myForm.controls['stEndDate'].dirty">Invalid End Date!!</small>
+  </div>
+  <!--div class="form-group">
+    <label for="salary">Employee salary</label>
+    <input type="number" class="form-control" id="salary" name="salary" formControlName="salary" />
+    <small *ngIf="!myForm.controls['salary'].valid && myForm.controls['salary'].dirty">Invalid salary!!</small>
+  </div-->
+
+    <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
+    &nbsp;<button type="button" (click)="updateEmployee()" class="btn btn-primary" [disabled]="!myForm.valid">Update</button>
+    <form>
