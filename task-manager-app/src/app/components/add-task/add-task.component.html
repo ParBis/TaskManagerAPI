@@ -7,6 +7,7 @@
   <div class="form-group">
     <label for="task">Task</label>
     <input type="hidden" class="form-control" id="taskId" name="taskId" formControlName="taskId">
+    <input type="hidden" class="form-control" id="taskStatus" name="taskStatus" formControlName="taskStatus">
     <input type="text" class="form-control" id="task" name="task" formControlName="task">
     <small *ngIf="!myForm.controls['task'].valid && myForm.controls['task'].dirty">Invalid Task!!</small>
   </div>
@@ -27,17 +28,26 @@
     <input type="date" class="form-control" id="stStartDate" name="stStartDate" formControlName="stStartDate">
     <small *ngIf="!myForm.controls['stStartDate'].valid && myForm.controls['stStartDate'].dirty">Invalid Start Date!!</small>
   </div>
-  <div class="form-group">
+  <div class="form-group date">
     <label for="stEndDate">End Date</label>
     <input type="date" class="form-control" id="stEndDate" name="stEndDate" formControlName="stEndDate">
     <small *ngIf="!myForm.controls['stEndDate'].valid && myForm.controls['stEndDate'].dirty">Invalid End Date!!</small>
   </div>
+  
   <!--div class="form-group">
-    <label for="salary">Employee salary</label>
+    <label for="salary">Task salary</label>
     <input type="number" class="form-control" id="salary" name="salary" formControlName="salary" />
     <small *ngIf="!myForm.controls['salary'].valid && myForm.controls['salary'].dirty">Invalid salary!!</small>
   </div-->
 
-    <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
-    &nbsp;<button type="button" (click)="updateEmployee()" class="btn btn-primary" [disabled]="!myForm.valid">Update</button>
+
+  <ng-container *ngIf="myForm.controls['taskStatus'].value === 1; else else1">
+      <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
+      &nbsp;<button type="button" (click)="updateTask()" class="btn btn-primary" [disabled]="!myForm.valid">Update</button>   
+      &nbsp;<button type="button" (click)="resetTask()" class="btn btn-primary">Reset</button>
+  </ng-container>
+  <ng-template #else1>
+      &nbsp;
+  </ng-template>
+  
     <form>

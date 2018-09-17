@@ -1,33 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
-import { EmployeeService } from '../../services/employee.service';
+import { TaskService } from '../../services/task.service';
 import {ActivatedRoute} from "@angular/router";
-
+import * as moment from 'moment';
 
 @Component({
-  selector: 'app-add-employee',
-  templateUrl: './add-employee.component.html',
-  styleUrls: ['./add-employee.component.css']
+  selector: 'app-add-task',
+  templateUrl: './add-task.component.html',
+  styleUrls: ['./add-task.component.css']
 })
-export class AddEmployeeComponent implements OnInit {
+export class AddTaskComponent implements OnInit {
 
   myForm: FormGroup
   message:string = ''
   alertClass: string = "alert alert-success"
 
-  genders: Array<string> = ['Male', 'Female']
+  //genders: Array<string> = ['Male', 'Female']
 
-  constructor(private employeeService: EmployeeService, private activatedRoute: ActivatedRoute) {
+  constructor(private taskService: TaskService, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe( params => {
       if(params.id){
-        this.fetchEmployee(params.id) 
+        this.fetchTask(params.id) 
       }
     });
+
   }
 
-  fetchEmployee(id: number){
-    this.employeeService.fetchEmployee(id)
+  fetchTask(id: number){
+    this.taskService.fetchTask(id)
     .then(data => {
       console.log(data);
       this.myForm.controls['taskId'].setValue(data.taskId)
@@ -36,15 +37,16 @@ export class AddEmployeeComponent implements OnInit {
       this.myForm.controls['priority'].setValue( data.priority);
       this.myForm.controls['stStartDate'].setValue( data.stStartDate);
       this.myForm.controls['stEndDate'].setValue( data.stEndDate);
+      this.myForm.controls['taskStatus'].setValue( data.taskStatus);
     })
   }
 
 
   ngOnInit() {
-
       this.myForm = new FormGroup({  
               'taskId': new FormControl('' ),   
-              'task': new FormControl('', [Validators.required] ),
+              'taskStatus': new FormControl(0),  
+              'task': new FormControl('', Validators.required),
               'parentTask': new FormControl('', Validators.required),
               'stStartDate': new FormControl('', Validators.required),
               'stEndDate': new FormControl('', Validators.required),
@@ -60,39 +62,51 @@ export class AddEmployeeComponent implements OnInit {
   
   onSubmit() {
       console.log("myForm--> " + this.myForm);
-      console.log("myForm.value--> " + this.myForm.value);
-      this.employeeService.addEmployee(this.myForm.value)
+      console.log("myForm.value--> ", this.myForm.value);
+      //this.myForm.value.stStartDate = "01-Dec-2018";
+      //this.myForm.value.stStartDate = moment(this.myForm.value.stStartDate).format('MM/DD/YYYY');
+      //console.log("myForm.value--> ", this.myForm.value);
+      this.taskService.addTask(this.myForm.value)
       .then((res) => {
         console.log(res.status)
         if(res.status == 201){
           this.alertClass = "alert alert-success"
-          this.message = "Employee added successfully!!"
+          this.message = "Task added successfully!!"
         }
       })
       .catch((res) =>{
         console.log(res.status)
         if(res.status == 409){
           this.alertClass = "alert alert-danger"
-          this.message = "Employee already exists!!"
+          this.message = "Task already exists!!"
         }
       })
   }
-  updateEmployee() {
+  updateTask() {
       console.log(this.myForm);
       console.log(this.myForm.value);
-      this.employeeService.updateEmployee(this.myForm.value)
+      this.taskService.updateTask(this.myForm.value)
       .then((res) => {
         console.log(res.status)
         if(res.status == 201){
           this.alertClass = "alert alert-success"
-          this.message = "Employee added successfully!!"
+          this.message = "Task added successfully!!"
         }
         if(res.status == 202){
           this.alertClass = "alert alert-success"
-          this.message = "Employee updated successfully!!"
+          this.message = "Task updated successfully!!"
         }
       })
-      
+  }
+
+  resetTask() {
+    this.myForm.reset();
+    this.myForm.controls['taskId'].setValue('');
+    this.myForm.controls['task'].setValue('');
+    this.myForm.controls['parentTask'].setValue('');
+    this.myForm.controls['priority'].setValue(0);
+    this.myForm.controls['stStartDate'].setValue('');
+    this.myForm.controls['stEndDate'].setValue('');
   }
 
 

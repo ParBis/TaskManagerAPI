@@ -3,25 +3,25 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { ViewEmployeesComponent } from './components/view-employees/view-employees.component';
-import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
-import { EmployeeService } from './services/employee.service';
+import { TaskService } from './services/task.service';
 import { HttpModule } from '@angular/http';
-import { FilterEmployeePipe } from './pipes/filter-employee.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterTaskPipe } from './pipes/filter-task.pipe';
+import { ViewTasksComponent } from './components/view-tasks/view-tasks.component';
+import { AddTaskComponent } from './components/add-task/add-task.component';
 const routes = [
-  {path:"", component: ViewEmployeesComponent},
-  {path:"add", component: AddEmployeeComponent},
-  {path:"edit/:id", component: AddEmployeeComponent},
+  {path:"", component: ViewTasksComponent},
+  {path:"add", component: AddTaskComponent},
+  {path:"edit/:id", component: AddTaskComponent},
 ]
 @NgModule({
   declarations: [
-    AppComponent, ViewEmployeesComponent, AddEmployeeComponent, FilterEmployeePipe
+    AppComponent, FilterTaskPipe, ViewTasksComponent, AddTaskComponent
   ],
   imports: [
     BrowserModule, HttpModule, RouterModule.forRoot(routes), FormsModule, ReactiveFormsModule
   ],
-  providers: [EmployeeService],
+  providers: [TaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
