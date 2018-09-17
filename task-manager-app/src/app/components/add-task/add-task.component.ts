@@ -45,7 +45,7 @@ export class AddTaskComponent implements OnInit {
   ngOnInit() {
       this.myForm = new FormGroup({  
               'taskId': new FormControl('' ),   
-              'taskStatus': new FormControl(0),  
+              'taskStatus': new FormControl(1),  
               'task': new FormControl('', Validators.required),
               'parentTask': new FormControl('', Validators.required),
               'stStartDate': new FormControl('', Validators.required),
