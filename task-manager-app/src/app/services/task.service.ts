@@ -26,9 +26,7 @@ export class TaskService {
     return this.http.delete('http://localhost:8082/TaskManagerService/taskapi/task/'+index).toPromise()
   }
 
-  updateTaskStatus(index:number){
-    //alert(index);
-    //return this.http.put('http://localhost:8082/TaskManagerService/taskapi/taskStatus', index).toPromise()
+  updateTaskStatus(index:number): Promise<any>{
     return this.http.delete('http://localhost:8082/TaskManagerService/taskapi/taskStatus/'+index).toPromise()
   }
 }

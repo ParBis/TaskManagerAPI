@@ -17,6 +17,10 @@ export class ViewTasksComponent implements OnInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
+    this.fetchTasks();
+  }
+
+  fetchTasks(){
     this.taskService.fetchTasks()
     .then((data)=>{
       console.log(data);
@@ -39,7 +43,6 @@ export class ViewTasksComponent implements OnInit {
 
       this.tasks = data;
     })
-
   }
 
   deleteTask(index: number){
@@ -59,16 +62,16 @@ export class ViewTasksComponent implements OnInit {
     this.taskService.updateTaskStatus(index)
     .then((data)=>{
       console.log(data)
-    })
-    .catch((err)=>{
-      if(err.status == 202){
+      if(data.status == 202){
         this.alertClass = "alert alert-success"
         this.message = "Task ended successfully!!"
-      } else{
+        this.fetchTasks();
+      }
+    })
+    .catch((err)=>{
         this.alertClass = "alert alert-danger"
         this.message = "Failed!!"
-      }
-      console.log(err)});
+        console.log(err)});
   }
 
 }
